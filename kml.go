@@ -39,5 +39,5 @@ func (k *Kml) AddPlacemark(name string, desc string, point string) {
 }
 
 func (k *Kml) Marshal() ([]byte, error){
-	return xml.MarshalIndent(k, "", "    ")
+	return xml.MarshalIndent(k, "", "   ")
 }
