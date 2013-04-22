@@ -15,7 +15,7 @@ type Placemark struct {
 //Kml template
 type Kml struct {
 	XMLName		xml.Name	`xml:"kml"`
-	Namespace	string		`xml:xmlns,attr`
+	Id			string		`xml:id,attr`
 	Placemark	[]Placemark	
 }
 
@@ -25,7 +25,7 @@ func NewKML(namespace string, numPlacemarks int) *Kml {
 	if namespace == "" {
 		namespace = "http://www.opengis.net/kml/2.2"
 	}
-	kml.Namespace = namespace
+	kml.Id = namespace
 	kml.Placemark = make([]Placemark, numPlacemarks)
 	return kml
 }
@@ -39,5 +39,5 @@ func (k *Kml) AddPlacemark(name string, desc string, point string) {
 }
 
 func (k *Kml) Marshal() ([]byte, error){
-	return xml.MarshalIndent(k, "", "   ")
+	return xml.MarshalIndent(k, "", "    ")
 }
