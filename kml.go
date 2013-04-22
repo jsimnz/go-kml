@@ -12,11 +12,14 @@ type Placemark struct {
 	Point		string	`xml:"Point>coordinates"`
 }
 
+type Document struct {
+	Placemark 	[]Placemark
+}
 //Kml template
 type Kml struct {
 	XMLName		xml.Name	`xml:"kml"`
-	Id			string		`xml:id,attr`
-	Placemark	[]Placemark	
+	Namespace	string		`xml:"xmlns,attr"`
+	Document 	Document
 }
 
 func NewKML(namespace string, numPlacemarks int) *Kml {
@@ -25,8 +28,8 @@ func NewKML(namespace string, numPlacemarks int) *Kml {
 	if namespace == "" {
 		namespace = "http://www.opengis.net/kml/2.2"
 	}
-	kml.Id = namespace
-	kml.Placemark = make([]Placemark, numPlacemarks)
+	kml.Namespace = namespace
+	kml.Document.Placemark = make([]Placemark, numPlacemarks)
 	return kml
 }
 
@@ -35,7 +38,7 @@ func (k *Kml) AddPlacemark(name string, desc string, point string) {
 	placemark.Name 	= name
 	placemark.Description = desc
 	placemark.Point = point
-	k.Placemark = append(k.Placemark, placemark)
+	k.Document.Placemark = append(k.Document.Placemark, placemark)
 }
 
 func (k *Kml) Marshal() ([]byte, error){
